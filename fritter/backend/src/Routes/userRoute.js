@@ -7,5 +7,11 @@ userRouter.post("/signup", (req, res) => {
 userRouter.post("/login", (req, res) => {
   res.send("login");
 });
-
+userRouter.get("/detail", (req, res) => {
+  res.send("details");
+});
+userRouter.put("/:id", (req,res)=>{
+  
+})
+// userRouter.post("/detail", )
 module.exports = { userRouter };

@@ -1,0 +1,89 @@
+CREATE TABLE `users` (
+  `user_id` VARCHAR(100) NOT NULL PRIMARY KEY,
+  `username` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
+  `joined_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `disp_img_link` VARCHAR(500) DEFAULT NULL
+);
+CREATE TABLE `posts` (
+  `creator_id` VARCHAR(100) NOT NULL,
+  `post_id` VARCHAR(100) NOT NULL PRIMARY KEY,
+  `content` VARCHAR(1000) NOT NULL COMMENT 'Content of the post',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `fk_posts_creator` FOREIGN KEY (`creator_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `comments` (
+  `creator_id` VARCHAR(100) NOT NULL,
+  `post_id` VARCHAR(100) NOT NULL,
+  `comment_id` VARCHAR(100) NOT NULL PRIMARY KEY,
+  `body` VARCHAR(500) NOT NULL COMMENT 'Content of the post',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `fk_comments_creator` FOREIGN KEY (`creator_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_comments_post` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `pages` (
+  `creator_id` VARCHAR(100) NOT NULL,
+  `page_id` VARCHAR(100) NOT NULL PRIMARY KEY,
+  `title` VARCHAR(50) NOT NULL,
+  CONSTRAINT `fk_pages_creator` FOREIGN KEY (`creator_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `page_posts` (
+  `page_id` VARCHAR(100) NOT NULL,
+  `post_id` VARCHAR(100) NOT NULL,
+  CONSTRAINT `fk_page_posts_page` FOREIGN KEY (`page_id`) REFERENCES `pages` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_page_posts_post` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+CREATE TABLE `members` (
+  `user_id` VARCHAR(100) NOT NULL,
+  `page_id` VARCHAR(100) NOT NULL,
+  `role` VARCHAR(10) NOT NULL DEFAULT 'member',
+  CONSTRAINT `fk_members_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_members_page` FOREIGN KEY (`page_id`) REFERENCES `pages` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `friends` (
+  `user_id` VARCHAR(100) NOT NULL,
+  `friend_id` VARCHAR(100) NOT NULL,
+  `friendship_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `fk_friends_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_friends_friend` FOREIGN KEY (`friend_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `messages` (
+  `sender_id` VARCHAR(100) NOT NULL,
+  `receiver_id` VARCHAR(100) NOT NULL,
+  `content` VARCHAR(200) NOT NULL,
+  `sent_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `fk_messages_sender` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_messages_receiver` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `images` (
+  `user_id` VARCHAR(100) NOT NULL COMMENT 'One img/vid per post',
+  `post_id` VARCHAR(100) NOT NULL,
+  `link` VARCHAR(500) DEFAULT NULL,
+  CONSTRAINT `fk_images_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_images_post` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `likes` (
+  `user_id` VARCHAR(100) NOT NULL,
+  `post_id` VARCHAR(100) NOT NULL,
+  CONSTRAINT `fk_likes_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_likes_post` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE UNIQUE INDEX `page_posts_index_0` ON `page_posts` (`post_id`);
+CREATE UNIQUE INDEX `friends_index_1` ON `friends` (`user_id`, `friend_id`);
+CREATE UNIQUE INDEX `images_index_2` ON `images` (`user_id`, `post_id`);
+CREATE UNIQUE INDEX `likes_index_3` ON `likes` (`user_id`, `post_id`);
+
+ALTER TABLE `friends` COMMENT 'composite key';
+ALTER TABLE `images` COMMENT 'composite key';
+ALTER TABLE `likes` COMMENT 'composite key';

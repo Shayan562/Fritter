@@ -1,0 +1,26 @@
+.in {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+   
+}
+.bt1{
+    margin-right: 100px;
+}
+.button{
+    text-align: center;
+    padding: 10px;
+    padding-bottom: 20px;
+    background-color: red;
+}
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+   
+}

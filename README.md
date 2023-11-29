@@ -1,2 +1,0 @@
-# Fritter
-Social Media Application

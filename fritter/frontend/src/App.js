@@ -1,12 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
-import { SignUp } from './pages/SignUp';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import React, { useEffect } from 'react';
 import { Home } from './pages/Home';
-import { Login } from './pages/Login';
+
+
 
 
 function App() {
+  useEffect(()=>{
+    document.title="Fritter";
+},[])
   return (
     <div>
          <BrowserRouter>

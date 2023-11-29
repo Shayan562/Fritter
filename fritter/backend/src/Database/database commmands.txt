@@ -87,3 +87,75 @@ CREATE UNIQUE INDEX `likes_index_3` ON `likes` (`user_id`, `post_id`);
 ALTER TABLE `friends` COMMENT 'composite key';
 ALTER TABLE `images` COMMENT 'composite key';
 ALTER TABLE `likes` COMMENT 'composite key';
+
+------------------------------------------------------------------------------------------
+
+INSERT INTO `users` (`user_id`, `username`, `password`, `disp_img_link`) VALUES
+('user1', 'JohnDoe', 'password123', 'img1.jpg'),
+('user2', 'AliceSmith', 'pass456', 'img2.jpg'),
+('user3', 'BobJohnson', 'secret321', NULL),
+('user4', 'EvaWilliams', 'userpass', 'img3.jpg'),
+('user5', 'CharlieBrown', 'charliepass', 'img4.jpg');
+
+INSERT INTO `posts` (`creator_id`, `post_id`, `content`) VALUES
+('user1', 'post1', 'This is a sample post.'),
+('user2', 'post2', 'Exploring new ideas.'),
+('user3', 'post3', 'Sharing my experiences.'),
+('user4', 'post4', 'Check out this amazing thing.'),
+('user5', 'post5', 'Just a quick update.');
+INSERT INTO `pages` (`creator_id`, `page_id`, `title`) VALUES
+('user1', 'page1', 'Tech Enthusiasts'),
+('user2', 'page2', 'Book Lovers'),
+('user3', 'page3', 'Fitness Fanatics'),
+('user4', 'page4', 'Foodies'),
+('user5', 'page5', 'Travel Bugs');
+
+INSERT INTO `members` (`user_id`, `page_id`, `role`) VALUES
+('user1', 'page1', 'admin'),
+('user2', 'page1', 'member'),
+('user3', 'page2', 'admin'),
+('user4', 'page2', 'member'),
+('user5', 'page3', 'member');
+INSERT INTO `friends` (`user_id`, `friend_id`) VALUES
+('user1', 'user2'),
+('user1', 'user3'),
+('user2', 'user4'),
+('user3', 'user4'),
+('user4', 'user5');
+
+INSERT INTO `users` (`user_id`, `username`, `password`, `disp_img_link`) VALUES
+('user1', 'JohnDoe', 'password123', 'img1.jpg'),
+('user2', 'AliceSmith', 'pass456', 'img2.jpg'),
+('user3', 'BobJohnson', 'secret321', NULL),
+('user4', 'EvaWilliams', 'userpass', 'img3.jpg'),
+('user5', 'CharlieBrown', 'charliepass', 'img4.jpg');
+
+INSERT INTO `posts` (`creator_id`, `post_id`, `content`) VALUES
+('user1', 'post1', 'This is a sample post.'),
+('user2', 'post2', 'Exploring new ideas.'),
+('user3', 'post3', 'Sharing my experiences.'),
+('user4', 'post4', 'Check out this amazing thing.'),
+('user5', 'post5', 'Just a quick update.');
+INSERT INTO `pages` (`creator_id`, `page_id`, `title`) VALUES
+('user1', 'page1', 'Tech Enthusiasts'),
+('user2', 'page2', 'Book Lovers'),
+('user3', 'page3', 'Fitness Fanatics'),
+('user4', 'page4', 'Foodies'),
+('user5', 'page5', 'Travel Bugs');
+
+INSERT INTO `members` (`user_id`, `page_id`, `role`) VALUES
+('user1', 'page1', 'admin'),
+('user2', 'page1', 'member'),
+('user3', 'page2', 'admin'),
+('user4', 'page2', 'member'),
+('user5', 'page3', 'member');
+INSERT INTO `friends` (`user_id`, `friend_id`) VALUES
+('user1', 'user2'),
+('user1', 'user3'),
+('user2', 'user4'),
+('user3', 'user4'),
+('user4', 'user5');
+
+INSERT INTO `posts` (`creator_id`, `post_id`, `content`) VALUES
+('user2', 'post6', 'Where was I gone?');
+

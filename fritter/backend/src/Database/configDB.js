@@ -1,5 +1,5 @@
 import mysql from "mysql2"
-export const connection = mysql.createPool({
+export const database = mysql.createPool({
         /* don't expose password or any sensitive info, done only for demo */
         host: "localhost",
         user: "root",

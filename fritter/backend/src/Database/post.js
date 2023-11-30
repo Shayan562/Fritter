@@ -10,7 +10,8 @@ const getPosts = async (postIDs) => {
   ids = ids.substring(0, ids.length - 1);
   ids = ids.concat(")");
   const [posts] = await database.query(
-    `select * from posts where post_id IN ${ids} order by created_at Desc`
+    `select posts.*, images.link from posts left join images ON posts.post_id = images.post_id where posts.post_id IN ${ids};`
+    // `select * from posts where post_id IN ${ids} order by created_at Desc`
   );
   return posts;
 };
@@ -70,7 +71,11 @@ export const getPostsPage = async (userID, pageID) => {
     return;
   }
   //then get all the posts on the page from page_posts
-  //
   //get all posts on a page
+  const [posts] = await database.query(
+    `select posts.*, pages.title, images.link from pages join page_posts ON page_posts.page_id = pages.page_id join posts ON posts.post_id = page_posts.post_id Left join images ON posts.post_id=images.post_id where pages.page_id=?;`,
+    [pageID]
+  );
+  return posts;
 };
-// console.log(await getPostsProfile("user2"));
+// console.log(await getPostsPage("user1", "page1"));

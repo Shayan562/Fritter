@@ -159,3 +159,23 @@ INSERT INTO `friends` (`user_id`, `friend_id`) VALUES
 INSERT INTO `posts` (`creator_id`, `post_id`, `content`) VALUES
 ('user2', 'post6', 'Where was I gone?');
 
+INSERT INTO `images` (`user_id`, `post_id`, `link`) VALUES
+('user1', 'post1', 'img1.jpg'),
+('user2', 'post2', 'img2.jpg'),
+('user3', 'post3', NULL),
+('user4', 'post4', 'img3.jpg'),
+('user5', 'post5', 'img4.jpg');
+
+INSERT INTO `page_posts` (`page_id`, `post_id`) VALUES
+('page1', 'post1'),
+('page1', 'post2'),
+('page2', 'post3'),
+('page2', 'post4'),
+('page3', 'post5');
+
+INSERT INTO `likes` (`user_id`, `post_id`) VALUES
+('user1', 'post1'),
+('user2', 'post1'),
+('user3', 'post2'),
+('user4', 'post2'),
+('user5', 'post3');

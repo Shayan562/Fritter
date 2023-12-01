@@ -46,7 +46,7 @@ export const getLikesUser = async (userID) => {
 };
 export const getLikesPost = async (postID) => {
   const [result] = await database.query(
-    `select user_id from likes where post_id=?`,
+    `select user_id from likes where post_id=? order by created_at Desc`,
     [postID]
   );
   const ids = [];
@@ -61,7 +61,8 @@ export const getLikesCount = async (postID) => {
     [postID]
   );
   //   console.log(likes);
-  return likes[0].count;
+  return (likes.length<1?0:likes[0].count);
+  // return likes[0].count;
 };
 
 // console.log(await removeLike("user1", "post2"));

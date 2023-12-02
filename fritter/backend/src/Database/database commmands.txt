@@ -200,3 +200,33 @@ INSERT INTO `comments` (`creator_id`, `post_id`, `body`) VALUES
 ('user3', 'post2',  'Nice thoughts.'),
 ('user4', 'post3',  'Looking forward to more.'),
 ('user5', 'post3', 'Well done!');
+
+CREATE TABLE table1_seq
+(
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+DELIMITER $$
+CREATE TRIGGER tg_post_insert
+BEFORE INSERT ON posts
+FOR EACH ROW
+BEGIN
+  INSERT INTO table1_seq VALUES(null);
+  SET NEW.post_id = CONCAT('p', LAST_INSERT_ID());
+END $$
+DELIMITER ;
+
+CREATE TABLE table2_seq
+(
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+DELIMITER $$
+CREATE TRIGGER tg_page_insert
+BEFORE INSERT ON pages
+FOR EACH ROW
+BEGIN
+  INSERT INTO table2_seq VALUES(null);
+  SET NEW.page_id = CONCAT('pg', LAST_INSERT_ID());
+END $$
+DELIMITER ;

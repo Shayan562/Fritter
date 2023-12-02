@@ -13,16 +13,18 @@ export const alreadyMember = async (userID, pageID) => {
   return false;
 };
 
-export const addMember = async (userID, pageID) => {
+export const addMember = async (userID, pageID, role=null) => {
   //check if already a member
   if (await alreadyMember(userID, pageID)) {
     //already member
     return;
   }
+  const newRole=(role==null?'member':role);
   //check if the page exists
-  await database.query(`insert into members(user_id,page_id) values(?,?)`, [
+  await database.query(`insert into members(user_id,page_id,role) values(?,?,?)`, [
     userID,
     pageID,
+    newRole
   ]);
 };
 export const removeMember = async (userID, pageID) => {
@@ -39,5 +41,9 @@ export const removeMember = async (userID, pageID) => {
   // await database.query(`insert into members(user_id,page_id) values(?,?)`, [userID, pageID]
   //   );
 };
-
+export const memberOf=async(userID)=>{
+  const [pages]=await database.query(`select * from members where user_id=?`,userID);
+  return pages;
+}
+// console.log(await memberOf('user1'));
 // console.log(await removeMember("user1", "page5"));

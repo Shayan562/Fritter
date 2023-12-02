@@ -1,12 +1,14 @@
 //verify request is made by logged in/authorized user
-const auth = (req, res, next) => {
-  try {
+export const auth = (req, res, next) => {
+  // try {
     //verification
+    // console.log(req.headers.id);
+    // req.Headers.id=req.params.id;
     next();
-  } catch {
-    console.log(error);
-    res.status(401).json({ message: "Some Error Occured" });
-  }
+  // } catch {
+    // console.log(error);
+    // res.status(401).json({ message: "Some Error Occured" });
+  // }
 };
 
-module.exports = { auth };
+// module.exports = { auth };

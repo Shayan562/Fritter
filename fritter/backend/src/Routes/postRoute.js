@@ -1,12 +1,14 @@
-const express = require("express");
-const { getPost, getPosts, createPost, updatePost, deletePost } = require("../Controllers/postController");
-const { auth } = require("../Middlewares/auth");
-const postRouter = express.Router();
+// const express = require("express");
 
-postRouter.get("/", auth,getPosts);
-postRouter.get("/:id", auth, getPost);
+import express from 'express';
+import { getPost, createPost, updatePost, deletePost, feed } from "../Controllers/postController.js";
+import { auth } from "../Middlewares/auth.js";
+export const postRouter = express.Router();
+
+postRouter.get("/feed", auth, feed);
+postRouter.get("/profile/:id", auth, getPost);
 postRouter.post("/", auth,createPost);
 postRouter.put("/:id", auth,updatePost);
 postRouter.delete("/:id", auth,deletePost)
 
-module.exports = { postRouter };
+// module.exports = { postRouter };

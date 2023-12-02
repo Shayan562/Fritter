@@ -1,5 +1,5 @@
-const express = require("express");
-const userRouter = express.Router();
+import express from 'express';
+export const userRouter = express.Router();
 
 userRouter.post("/signup", (req, res) => {
   res.send("signup");
@@ -14,4 +14,4 @@ userRouter.put("/:id", (req,res)=>{
   
 })
 // userRouter.post("/detail", )
-module.exports = { userRouter };
+// module.exports = { userRouter };

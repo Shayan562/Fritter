@@ -4,9 +4,9 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import React, { useEffect } from 'react';
 import { Home } from './pages/Home';
-import { Pages } from './pages/Pages';
-import { Friends } from './pages/Friends';
 import Profile from './pages/Profile';
+import Friends from './pages/Friends';
+import Pages from './pages/Pages';
 
 
 

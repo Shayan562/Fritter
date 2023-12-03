@@ -10,6 +10,11 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AppContext } from '../App';
+import { useContext } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 function Copyright(props) {
   return (
@@ -29,13 +34,27 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
+  const navigate=useNavigate();
+  const {userDetails, setUserDetails, token, setToken} = useContext(AppContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('username'),
-      password: data.get('password'),
-    });
+    const user={user_id:data.get('username'),password:data.get('password')};
+    axios.post('http://localhost:5000/user/login',user).then(res=>{
+      const key=Object.keys(res.data);
+      if(key[0]=='message'){
+        window.alert(res.data.message);
+        return;
+      }
+      setUserDetails(res.data.user);
+      setToken(res.data.token);
+      navigate('/home');
+      // console.log(res.data.user)
+      // console.log(Object.keys(res.data));
+      // console.log(res.data);
+    })
+    
   };
 
   return (

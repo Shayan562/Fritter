@@ -54,4 +54,4 @@ export const getMsgs = async (senderID, receiverID) => {
 //   ]);
 // };
 
-console.log(await getMsgs('user2','user1'));
+// console.log(await getMsgs('user2','user1'));

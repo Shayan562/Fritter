@@ -1,9 +1,12 @@
 import { database } from "./configDB.js";
 import { addMember } from "./members.js";
 import { deletePost, getPostsPage } from "./post.js";
-
+//pages the user is apart of
+// export const getUserPages = async (userID)=>{
+  
+// }
 //check page exists
-const pageExists = async (pageID) => {
+export const pageExists = async (pageID) => {
   const [verify] = await database.query(
     `select * from pages where page_id=?`,
     [pageID]
@@ -15,7 +18,7 @@ const pageExists = async (pageID) => {
   return false;
 };
 //create page
-const createPage = async (pageDetails)=>{
+export const createPage = async (pageDetails)=>{
     await database.query(
     `insert into pages(creator_id, title) values(?,?)`,
     [pageDetails.creator_id,pageDetails.title]
@@ -24,7 +27,7 @@ const createPage = async (pageDetails)=>{
   await addMember(pageDetails.creator_id,pageID[0].page_id,'admin');
 }
 //update page
-const updatePage = async (pageID, updateColumns, updateData)=>{
+export const updatePage = async (pageID, updateColumns, updateData)=>{
     //two arrays, order is important
     //modify columns for query
     let data= "";
@@ -37,12 +40,13 @@ const updatePage = async (pageID, updateColumns, updateData)=>{
 
 }
 //get page details
-const getPage = async (pageID) => {
+export const getPage = async (pageID) => {
     if(! await pageExists(pageID)){
         return {message:"does not exist"};
     }
   const [page] = await database.query(
-    `select * from pages where page_id=?`,
+    `select pages.*,users.username from pages join
+    users on users.user_id=pages.creator_id where page_id=?`,
     [pageID]
   );
   return page[0];
@@ -75,4 +79,4 @@ export const deletePage = async (pageID) => {
   // await database.query(`insert into members(user_id,page_id) values(?,?)`, [userID, pageID]
   //   );
 };
-console.log(await deletePage('page3'));
+// console.log(await getPage('page1'));

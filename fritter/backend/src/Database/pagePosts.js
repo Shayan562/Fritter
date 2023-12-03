@@ -13,6 +13,6 @@ export const addPagePostEntry = async (pageID, postID) => {
     postID
   ]);
 };
-await addPagePostEntry('page2','p1');
+// await addPagePostEntry('page2','p1');
 //check page post
 //delete page post

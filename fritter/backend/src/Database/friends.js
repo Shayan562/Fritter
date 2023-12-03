@@ -25,7 +25,15 @@ export const getFriends = async (userID) => {
       ids.push(obj.user_id);
     }
   });
-  return ids;
+  let friendids = "(";
+  ids.forEach((id) => {
+    friendids = friendids.concat(`'${id}',`);
+  });
+  friendids = friendids.substring(0, friendids.length - 1);
+  friendids = friendids.concat(")");
+  const [friends] = await database.query(`select user_id,username from users
+  where user_id in ${friendids}`)
+  return friends;
 };
 
 export const addFriends = async (userID, friendID) => {
@@ -40,14 +48,15 @@ export const addFriends = async (userID, friendID) => {
   //cheking if already friends
   if (await alreadyFriends(val1, val2)) {
     //already friends output msg and return
-    console.log("friends");
-    return;
+    // console.log("friends");
+    return {message:'already friends'};
   }
   // console.log(`Inserting ${val1} and ${val2}`);
   await database.query(`insert into friends(user_id, friend_id) values(?,?)`, [
     val1,
     val2,
   ]);
+  return {message:'added friend'};
 };
 
 export const removeFriends = async (userID, friendID) => {
@@ -62,12 +71,13 @@ export const removeFriends = async (userID, friendID) => {
   //checking if they are friends
   if (!(await alreadyFriends(val1, val2))) {
     //not friends so cant unfriend
-    return;
+    return {message:"not friends"};
   }
   await database.query(`delete from friends where user_id=? AND friend_id=?`, [
     val1,
     val2,
   ]);
+  return {message:"unfriended"}
 };
 // console.log(await setFriends("user4","user1"));
 // console.log(await getFriends("user1"));

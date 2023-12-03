@@ -230,3 +230,36 @@ BEGIN
   SET NEW.page_id = CONCAT('pg', LAST_INSERT_ID());
 END $$
 DELIMITER ;
+
+
+
+
+export const getPostsFeed = async (userID) => {
+  // Get the user's friends and pages they are part of
+  const friends = await getFriends(userID);
+  const userPages = await memberOF(userID);
+
+  // Get post IDs from friends (excluding posts on pages that user is not part of)
+  const friendsPostIDs = [];
+  for (const friendID of friends) {
+    const friendPosts = await getPostIDSUser(friendID);
+    friendsPostIDs.push(friendPosts);
+  }
+
+  // Get post IDs from pages that the user is part of
+  const userPagesPostIDs = await getPostIDSUserPages(userPages);
+
+  // Combine post IDs from friends and user pages
+  const combinedPostIDs = friendsPostIDs.concat(userPagesPostIDs);
+
+  // Flatten the array
+  const postIDs = combinedPostIDs.flat();
+
+  // Remove duplicates
+  const uniquePostIDs = [...new Set(postIDs)];
+
+  // Get posts based on the collected post IDs
+  const posts = await getPosts(uniquePostIDs);
+
+  return posts;
+};

@@ -22,23 +22,24 @@ export const createComment = async (userID, postID, body) => {
 };
 //get comments-post
 export const getComments = async (postID) => {
-  const [commentIds] = await database.query(
-    `select comment_id from comments where post_id=?`,
+  const [comments] = await database.query(
+    `select users.username,comments.* from comments join
+    users on comments.creator_id=users.user_id
+    where comments.post_id=? order by created_at DESC`,
     [postID]
   );
-  let ids = "(";
-  commentIds.forEach((obj) => {
-    ids = ids.concat(`'${obj.comment_id}',`)
-    // ids.push(obj.comment_id);
-  });
-  ids = ids.substring(0, ids.length - 1);
-  ids = ids.concat(")");
-  //get the comments
-  const [comments] = await database.query(
-    `select * from comments where comments.comment_id IN ${ids} order by created_at Desc;`
-    // `select * from posts where post_id IN ${ids} order by created_at Desc`
-  );
   return comments;
+  // let ids = "(";
+  // commentIds.forEach((obj) => {
+  //   ids = ids.concat(`'${obj.comment_id}',`)
+  // });
+  // ids = ids.substring(0, ids.length - 1);
+  // ids = ids.concat(")");
+  // //get the comments
+  // const [comments] = await database.query(
+  //   `select * from comments where comments.comment_id IN ${ids} order by created_at Desc;`
+  // );
+  // return comments;
 };
 
 //delete comment
@@ -53,4 +54,5 @@ export const deleteComment = async (commentID) => {
   ]);
 };
 
-// console.log(await deleteComment('9'));
+// console.log(await getComments('post1'));
+// 

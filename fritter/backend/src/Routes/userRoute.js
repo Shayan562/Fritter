@@ -1,12 +1,12 @@
 import express from 'express';
+import { login, signup } from '../Controllers/userController.js';
+import { auth } from '../Middlewares/auth.js';
 export const userRouter = express.Router();
-
-userRouter.post("/signup", (req, res) => {
-  res.send("signup");
-});
-userRouter.post("/login", (req, res) => {
-  res.send("login");
-});
+userRouter.get("/",auth,(req,res)=>{
+  res.send(req.headers.id);
+})
+userRouter.post("/signup", signup);
+userRouter.post("/login", login);
 userRouter.get("/detail", (req, res) => {
   res.send("details");
 });

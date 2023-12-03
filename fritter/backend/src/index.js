@@ -5,6 +5,8 @@ import { messageRouter } from "./Routes/messageRoute.js";
 import { postRouter } from "./Routes/postRoute.js";
 import { userRouter } from "./Routes/userRoute.js";
 import cors from "cors"
+import { likesRouter } from "./Routes/likesRoute.js";
+import { commentsRouter } from "./Routes/commentRoute.js";
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use((err,req,res,next)=>{
 app.use("/user", userRouter);
 app.use("/post", postRouter);
 app.use("/message",messageRouter);
+app.use("/likes",likesRouter);
+app.use("/comments",commentsRouter);
 
 app.get("/", (req, res) => {
   // console.log("Req received")

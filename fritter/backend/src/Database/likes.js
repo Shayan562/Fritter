@@ -1,6 +1,6 @@
 import { database } from "./configDB.js";
 
-const alreadyLiked = async (userID, postID) => {
+export const alreadyLiked = async (userID, postID) => {
   const [verify] = await database.query(
     `select * from likes where user_id=? AND post_id=?`,
     [userID, postID]

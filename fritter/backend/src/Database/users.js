@@ -1,7 +1,7 @@
 import {database} from "./configDB.js";
 
 //verify user
-const userExists = async (userID) => {
+export const userExists = async (userID) => {
   const [verify] = await database.query(
     `select * from users where user_id=?`,
     [userID]
@@ -13,7 +13,7 @@ const userExists = async (userID) => {
   return false;
 };
 //get profle
-const getUser = async (userID) => {
+export const getUser = async (userID) => {
     if(! await userExists(userID)){
         return {message:"does not exist"};
     }
@@ -24,14 +24,14 @@ const getUser = async (userID) => {
   return user[0];
 };
 //create user
-const createUser = async (userDetails)=>{
+export const createUser = async (userDetails)=>{
     await database.query(
     `insert into users(user_id, username, password, disp_img_link) values(?,?,?,?)`,
     [userDetails.user_id,userDetails.username,userDetails.password,userDetails.disp_img_link]
   );    
 }
 //update user
-const updateUser = async (userID, updateColumns, updateData)=>{
+export const updateUser = async (userID, updateColumns, updateData)=>{
     //two arrays, order is important
     //modify columns for query
     let data= "";
@@ -44,7 +44,7 @@ const updateUser = async (userID, updateColumns, updateData)=>{
 
 }
 //login details
-const userLogin = async (userID)=>{
+export const userLogin = async (userID)=>{
     //check if user exists
     if(! await userExists(userID)){
         return 'Does not exist';
@@ -53,5 +53,6 @@ const userLogin = async (userID)=>{
     const [user]=await database.query(`select password from users where user_id=?`,[userID]);
     return user[0].password;
 }
+// console.log(await getUser('shayan'));
 // const [val]=await connection.query("select * from users");
 // console.log(await createUser({user_id:'user9',username:'Shayan',password:'pass123',disp_img_link:'null'}));

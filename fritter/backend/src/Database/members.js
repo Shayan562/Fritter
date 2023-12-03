@@ -5,7 +5,7 @@ export const alreadyMember = async (userID, pageID) => {
     `select * from members where user_id=? AND page_id=?`,
     [userID, pageID]
   );
-  console.log(verify);
+  // console.log(verify);
   if (verify.length != 0) {
     //user is a member output msg and return
     return true;
@@ -17,7 +17,7 @@ export const addMember = async (userID, pageID, role=null) => {
   //check if already a member
   if (await alreadyMember(userID, pageID)) {
     //already member
-    return;
+    return {message:'already a member'};
   }
   const newRole=(role==null?'member':role);
   //check if the page exists
@@ -42,7 +42,7 @@ export const removeMember = async (userID, pageID) => {
   //   );
 };
 export const memberOf=async(userID)=>{
-  const [pages]=await database.query(`select * from members where user_id=?`,userID);
+  const [pages]=await database.query(`select page_id from members where user_id=?`,userID);
   return pages;
 }
 // console.log(await memberOf('user1'));

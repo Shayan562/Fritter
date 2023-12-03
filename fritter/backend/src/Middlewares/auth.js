@@ -1,14 +1,15 @@
 //verify request is made by logged in/authorized user
 export const auth = (req, res, next) => {
-  // try {
     //verification
-    // console.log(req.headers.id);
-    // req.Headers.id=req.params.id;
+    const token=req.headers.token;
+    if(token){
+      const user = jwt.verify(token,"FRITTER");
+      req.headers.id=user.id;
+    }
+    else{
+      res.send({message:"Unauthorized User"});
+      return;
+    }
     next();
-  // } catch {
-    // console.log(error);
-    // res.status(401).json({ message: "Some Error Occured" });
-  // }
 };
 
-// module.exports = { auth };

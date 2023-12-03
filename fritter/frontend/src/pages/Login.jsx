@@ -47,8 +47,23 @@ export default function Login() {
         window.alert(res.data.message);
         return;
       }
+      // function setHeaders(){
+        axios.interceptors.request.use(
+      config => {
+      config.headers['token'] = res.data.token;
+      config.headers['id'] = res.data.user.user_id;
+          return config;
+      },
+      error => {
+        return Promise.reject(error);
+      }
+      );
+      // }
+      // setHeaders(); 
       setUserDetails(res.data.user);
       setToken(res.data.token);
+      sessionStorage.setItem('token', JSON.stringify(res.data.token))
+      console.log(res.data.token);
       navigate('/home');
       // console.log(res.data.user)
       // console.log(Object.keys(res.data));

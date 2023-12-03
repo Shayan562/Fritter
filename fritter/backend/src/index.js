@@ -7,6 +7,7 @@ import { userRouter } from "./Routes/userRoute.js";
 import cors from "cors"
 import { likesRouter } from "./Routes/likesRoute.js";
 import { commentsRouter } from "./Routes/commentRoute.js";
+import { friendsRouter } from "./Routes/friendsRoutes.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/post", postRouter);
 app.use("/message",messageRouter);
 app.use("/likes",likesRouter);
 app.use("/comments",commentsRouter);
+app.use("/friends",friendsRouter);
 
 app.get("/", (req, res) => {
   // console.log("Req received")

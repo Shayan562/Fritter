@@ -15,6 +15,7 @@ export const feed =async (req, res) => {
 };
 export const profile =async (req, res) => {
   //verify if user can get the post and open post
+  console.log(req.headers.id);
   res.send(await getPostsProfile(req.headers.id));
   // res.send("post: " + req.params.id);
 };

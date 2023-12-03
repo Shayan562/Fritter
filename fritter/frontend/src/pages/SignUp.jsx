@@ -12,6 +12,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AppContext } from '../App';
 import { useContext } from 'react';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -31,13 +33,24 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const navigate=useNavigate();
+  const {userDetails, setUserDetails, token, setToken} = useContext(AppContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    const user={user_id:data.get('userid'),username:data.get('username'),
+    password:data.get('password'),disp_img_link:data.get('disp_img_link')};
+    axios.post('http://localhost:5000/user/signup',user).then(res=>{
+      const key=Object.keys(res.data);
+      if(key[0]=='message'){
+        window.alert(res.data.message);
+        return;
+      }
+      setUserDetails(res.data.user);
+      setToken(res.data.token);
+      navigate('/');
+ })
   };
 
   return (
@@ -60,34 +73,25 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} >
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="username"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="username"
+                  label="Username"
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
+              
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="username"
-                  label="User Name"
-                  name="username"
+                  id="userid"
+                  label="Unique User ID"
+                  name="userid"
                   autoComplete="username"
                 />
               </Grid>
@@ -103,6 +107,16 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
+            <br></br>
+            <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="disp_img_link"
+                  label="Display Image Link (Optional)"
+                  name="disp_img_link"
+                  autoComplete="family-name"
+                />
+              </Grid>
             <Button
               type="submit"
               fullWidth

@@ -96,7 +96,18 @@ export const updatePost = async (postID, updateColumns, updateData) => {
 
 const getPostIDSUser = async (userID) => {
   const [postIDs] = await database.query(
-    `select post_id from posts where creator_id=? order by created_at Desc`,
+    `select * from posts where creator_id=? order by created_at Desc`,
+    [userID.user_id]
+  );
+  const postIDsArr = [];
+  postIDs.forEach((postObj) => {
+    postIDsArr.push(postObj.post_id);
+  });
+  return postIDsArr;
+};
+const getPostIDSUserProfile = async (userID) => {
+  const [postIDs] = await database.query(
+    `select * from posts where creator_id=? order by created_at Desc`,
     [userID]
   );
   const postIDsArr = [];
@@ -131,6 +142,7 @@ WHERE f.user_id = ?
   })
   // console.log(idsToRemove)
   const friends = await getFriends(userID);
+  // console.log(friends);
   const postIDsTemp = [];
   for (let i = 0; i < friends.length; i++) {
     postIDsTemp.push(await getPostIDSUser(friends[i]));
@@ -170,7 +182,7 @@ postsPages.forEach(id=>{
 };
 export const getPostsProfile = async (userID) => {
   //get all posts by user
-  const postIDs = await getPostIDSUser(userID);
+  const postIDs = await getPostIDSUserProfile(userID);
   const posts = await getPosts(postIDs);
   // console.log(posts);
   return posts;
@@ -209,5 +221,5 @@ export const getPostsPage = async (pageID) => {
       // console.log(postIds);
       return (await getPosts(postIds));
     };
-    // console.log(await getPostsPageWithValidation('user1'));
+    // console.log(await getPostsProfile('user1'));
     

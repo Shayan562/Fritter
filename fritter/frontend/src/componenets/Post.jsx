@@ -49,12 +49,13 @@ export default function Post(props) {
         title={props.name}
         subheader={props.date}
       />
-      <CardMedia
+      {(props.image!='' && props.image!=null?<CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
-        alt="Paella dish"
-      />
+        image={props.image}
+      />:'No Image')
+      }
+      
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {props.body}
@@ -63,11 +64,13 @@ export default function Post(props) {
       <CardActions disableSpacing>
         <IconButton aria-label="Like">
           <FavoriteIcon />
+          {props.likes}
         </IconButton>
         <IconButton aria-label="Comment">
           <AddCommentIcon onClick={()=>{
             
           }}/>
+          {props.comments}
         </IconButton>
         <ExpandMore
           expand={expanded}

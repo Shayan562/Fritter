@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -13,6 +11,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { NavBar } from "../componenets/NavBar.jsx"
+import axios from 'axios'
 
 function Copyright() {
   return (
@@ -33,6 +32,46 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const defaultTheme = createTheme();
 
 export default function Pages() {
+
+  const [data,setData]=React.useState([]);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token=sessionStorage.getItem('token');
+        const id=sessionStorage.getItem('id');
+        console.log(id);
+        const res = await axios.get("http://localhost:5000/post/profile"
+        , {
+          headers: {
+            token:`${token}`,
+            id:`${id}`,
+            
+            // userDetails,
+            // id:userDetails.user_id
+          },
+        }
+        );
+        // setData(res.data);
+        // console.log(res.data);
+        // if(res.data){
+        //   setFlag(true);
+        // }
+          // console.log(res.data);
+          setData(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Invoke the async function
+
+    // Cleanup function (if needed)
+    return () => {
+      // Perform cleanup here if necessary
+    };
+  }, []);
+
+
   return (
     <div>
         <NavBar/>

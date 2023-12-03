@@ -11,7 +11,7 @@ export const NavBar = () => {
           {/* <div > */}
           <Link to={"/home"} className={style.logo}>
             {/* <a href='http://localhost:3000/Home'>Fritter</a> */}
-            <h3>Fritter</h3>
+            <h4>Fritter</h4>
           </Link>
           {/* </div> */}
         </Typography>

@@ -6,6 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { NavBar } from "../componenets/NavBar.jsx"
+import { CreatePost } from '../componenets/CreatePost.jsx';
+
 export default function Profile() {
 
   return (
@@ -29,6 +31,7 @@ export default function Profile() {
         </CardContent>
       </Box>
     </Card>
+    <CreatePost/>
     </div>
   );
 }

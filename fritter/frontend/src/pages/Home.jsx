@@ -3,6 +3,7 @@ import Post from "../componenets/Post.jsx";
 import style from "./css/Home.module.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { CreatePost } from "../componenets/CreatePost.jsx";
 
 export const Home = () => {
   const [data, setData] = useState([{ name: "", date: "", body: "" }]);
@@ -46,9 +47,9 @@ export const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div className={style.bg}>
       <NavBar />
-      <div className={style.grid}>
+      <CreatePost/>
         <div className={style.post}>
           {data.map((item) => {
             return (
@@ -61,6 +62,5 @@ export const Home = () => {
           })}
         </div>
       </div>
-    </div>
   );
 };

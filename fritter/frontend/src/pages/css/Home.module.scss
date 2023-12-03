@@ -3,19 +3,20 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    width: 100vw;
+    
     // background-color: aqua;
     margin-top:100px;
 }
 .post{
     // margin: 200px;
+    height: 100vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(90deg, rgba(210,233,236,1) 38%, rgba(105,177,238,1) 100%);
-    // background: radial-gradient(circle, rgba(105,177,238,1) 81%, rgba(2,0,36,1) 100%);
-    // background-color: pink;
-    width: 100vw;
+}
+.bg {
+// background: rgb(218,251,255);
+// background: linear-gradient(180deg, rgba(218,251,255,1) 38%, rgba(105,177,238,1) 100%);
 }

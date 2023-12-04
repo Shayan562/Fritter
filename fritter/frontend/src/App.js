@@ -9,6 +9,7 @@ import Friends from "./pages/Friends";
 import Pages from "./pages/Pages";
 import { useState, createContext } from "react";
 import { PageView } from "./pages/PageView";
+import { Message } from "./pages/Message";
 
 export const AppContext = createContext();
 
@@ -37,6 +38,7 @@ function App() {
             <Route path="/pages" element={<Pages />} />
             <Route path="/friends" element={<Friends />} />
             <Route path="/pageid" element={<PageView/>} />
+            <Route path="/message" element={<Message/>} />
             <Route path="*" element={<h1>404 Not Found</h1>} />
           </Routes>
         </BrowserRouter>

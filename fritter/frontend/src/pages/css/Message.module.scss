@@ -1,0 +1,27 @@
+.user1 {
+    display: flex;
+    justify-content: start;
+    align-items: left;
+    margin: 10px;
+    border-style: outset;
+    border-color: aqua;
+    height: 10vh;
+}
+
+.heading{
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user2{
+    display: flex;
+    justify-content: end;
+    margin: 10px;
+    align-items: right;
+    border-style: outset;
+    border-color: aqua;
+    height: 10vh;
+
+}

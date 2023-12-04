@@ -31,7 +31,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token=sessionStorage.getItem('token');
+        const token=sessionStorage.getItem('token');  
         const id=sessionStorage.getItem('id');
         console.log(sessionStorage.getItem('token'));
         const res = await axios.get("http://localhost:5000/post/feed"
@@ -71,6 +71,7 @@ export const Home = () => {
           {data.map((item) => {
             return (
               <Post
+                user_id={item.creator_id}
                 name={item.username}
                 date={item.created_at}
                 body={item.content}

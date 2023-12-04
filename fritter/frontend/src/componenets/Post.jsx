@@ -15,6 +15,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import style from './css/Post.module.scss'
+import { Comment } from './Comment';
+import { useState,useEffect } from 'react';
+import axios from 'axios';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -28,13 +31,56 @@ const ExpandMore = styled((props) => {
 
 export default function Post(props) {
   const [expanded, setExpanded] = React.useState(false);
+  const [renderComments, setRenderComments] = React.useState(false);
+  // console.log(props);
+  const postID=props.post_id;
+  
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const [commentData, setCommentData]=useState("");
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const token=sessionStorage.getItem('token');
+            const id=sessionStorage.getItem('id');
+            console.log(`Comments of ${postID}`);
+            const res = await axios.get(`http://localhost:5000/comments/${postID}`
+            , {
+              headers: {
+                token:`${token}`,
+                id:`${id}`
+                // userDetails,
+                // id:userDetails.user_id
+              },
+            }
+            );
+            // setData(res.data);
+            // console.log(res.data);
+            // if(res.data){
+            //   setFlag(true);
+            // }
+              console.log(res.data);
+              setCommentData(res.data);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+    
+        fetchData(); // Invoke the async function
+    
+        // Cleanup function (if needed)
+        return () => {
+          // Perform cleanup here if necessary
+        };
+      }, []);
+  
   return (
     <Card className={style.card}>
+      {/* <Comment post_id={postID}/> */}
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -68,7 +114,9 @@ export default function Post(props) {
         </IconButton>
         <IconButton aria-label="Comment">
           <AddCommentIcon onClick={()=>{
-            
+            // setRenderComments(prev=>{return !prev});
+            handleExpandClick();
+            // console.log("Toggle Comments:"+postID);
           }}/>
           {props.comments}
         </IconButton>
@@ -78,14 +126,17 @@ export default function Post(props) {
           aria-expanded={expanded}
           aria-label="show more"
         >
-          <ExpandMoreIcon />
+          {/* <ExpandMoreIcon /> */}
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-        <Typography>Render Comments</Typography>
         </CardContent>
       </Collapse>
+      <Typography>
+        {commentData[0]?.body}
+        </Typography>
+      {/* {renderComments} */}
     </Card>
   );
 }

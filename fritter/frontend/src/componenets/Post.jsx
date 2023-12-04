@@ -34,13 +34,17 @@ export default function Post(props) {
   const [renderComments, setRenderComments] = React.useState(false);
   // console.log(props);
   const postID=props.post_id;
+
+  const handleLike=()=>{
+    console.log('Like or unlike - toggle');
+  }
   
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const [commentData, setCommentData]=useState("");
+  const [commentData, setCommentData]=useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -109,7 +113,11 @@ export default function Post(props) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="Like">
-          <FavoriteIcon />
+          <FavoriteIcon onClick={()=>{
+            // setRenderComments(prev=>{return !prev});
+            handleLike();
+            // console.log("Toggle Comments:"+postID);
+          }}/>
           {props.likes}
         </IconButton>
         <IconButton aria-label="Comment">
@@ -131,11 +139,14 @@ export default function Post(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
+      <Typography>
+        {commentData?.map(comment=>{
+          return <><h5>{comment.username}: </h5><p>{comment.body}</p><br></br></>
+        })}
+        {/* {commentData[0]?.body} */}
+        </Typography>
         </CardContent>
       </Collapse>
-      <Typography>
-        {commentData[0]?.body}
-        </Typography>
       {/* {renderComments} */}
     </Card>
   );

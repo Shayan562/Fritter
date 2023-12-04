@@ -26,56 +26,75 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function Pages() {
 
-  const [data,setData]=React.useState([]);
+  const [joinedPageData,setJoinedPageData]=React.useState([]);
+  const [explorePageData, setExplorePageData]=React.useState([]);
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const token=sessionStorage.getItem('token');
         const id=sessionStorage.getItem('id');
         console.log(id);
-        const res = await axios.get("http://localhost:5000/post/profile"
+        // http://localhost:5000/pages/joined for pages
+        const res = await axios.get("http://localhost:5000/pages/joined"
         , {
           headers: {
             token:`${token}`,
             id:`${id}`,
-            
-            // userDetails,
-            // id:userDetails.user_id
           },
         }
         );
-        // setData(res.data);
-        // console.log(res.data);
-        // if(res.data){
-        //   setFlag(true);
-        // }
-          // console.log(res.data);
-          setData(res.data);
+          setJoinedPageData(res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData(); // Invoke the async function
-
     // Cleanup function (if needed)
     return () => {
-      // Perform cleanup here if necessary
     };
   }, []);
 
+
+React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token=sessionStorage.getItem('token');
+        const id=sessionStorage.getItem('id');
+        console.log(id);
+        // http://localhost:5000/pages/joined for pages
+        const res = await axios.get("http://localhost:5000/pages/explore"
+        , {
+          headers: {
+            token:`${token}`,
+            id:`${id}`,
+          },
+        }
+        );
+        setExplorePageData(res.data);
+          // setExplorePageData(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Invoke the async function
+    // Cleanup function (if needed)
+    return () => {
+    };
+  }, []);
 
   return (
     <div>
         <NavBar/>
     <ThemeProvider theme={defaultTheme}>
+      {/* Users Pages */}
       <main>
         {/* Hero unit */}
         <Box
@@ -94,14 +113,14 @@ export default function Pages() {
               color="text.primary"
               gutterBottom
             >
-              Explore Communities
+              Your Pages
             </Typography>
           </Container>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {joinedPageData?.map((page) => (
+              <Grid item key={page.page_id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                 >
@@ -115,11 +134,8 @@ export default function Pages() {
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Full Name
-                    </Typography>
-                    <Typography>
-                      UserID
-                    </Typography>
+                      {page.title}
+                    </Typography> 
                   </CardContent>
                   <CardActions>
                     <Button size="Large">View Page</Button>
@@ -130,6 +146,61 @@ export default function Pages() {
           </Grid>
         </Container>
       </main>
+      {/* New Page */}
+      <main>
+        {/* Hero unit */}
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            pt: 8,
+            pb: 6,
+          }}
+          >
+        </Box>
+        <Container maxWidth="sm">
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Explore Pages
+            </Typography>
+          </Container>
+        <Container sx={{ py: 8 }} maxWidth="md">
+          {/* End hero unit */}
+          <Grid container spacing={4}>
+            {explorePageData?.map((page) => (
+              <Grid item key={page.page_id} xs={12} sm={6} md={4}>
+                <Card
+                  sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                >
+                  <CardMedia
+                    component="div"
+                    sx={{
+                      // 16:9
+                      pt: '56.25%',
+                    }}
+                    image="https://source.unsplash.com/random?wallpapers"
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {page.title}
+                    </Typography> 
+                  </CardContent>
+                  <CardActions>
+                    <Button size="Large">View Page</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </main>
+
+
+
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>

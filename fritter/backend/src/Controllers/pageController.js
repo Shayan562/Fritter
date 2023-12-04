@@ -1,6 +1,19 @@
 import { addMember, removeMember } from "../Database/members.js";
-import { createPage, deletePage, getPage, updatePage } from "../Database/page.js";
+import { createPage, deletePage, exploreRandom, getPage, getPagesUserHasJoined, updatePage } from "../Database/page.js";
 import { getPostsPageWithValidation } from "../Database/post.js";
+
+export const pagesForUser = async (req,res)=>{
+  const userid=req.headers.id;
+  // console.log(userid);
+  const pages= await getPagesUserHasJoined(userid);
+  res.send(pages);
+}
+
+export const explorePages = async (req,res)=>{
+  const userid=req.headers.id;
+  const pages=await exploreRandom(userid)
+  res.send(pages);
+}
 
 export const pageInfo = async (req, res) => {
   const page = await getPage(req.params.pageid);

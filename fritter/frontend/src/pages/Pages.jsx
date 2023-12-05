@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { NavBar } from "../componenets/NavBar.jsx"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import style from './css/Pages.module.scss'
 
 function Copyright() {
   return (
@@ -150,6 +151,7 @@ React.useEffect(() => {
                   </CardContent>
                   <CardActions>
                     <Button size="Large" onClick={()=>{redirectToPage(page.page_id)}}>View Page</Button>
+                    <Button size='Large'>Leave</Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -202,6 +204,7 @@ React.useEffect(() => {
                   </CardContent>
                   <CardActions>
                     <Button size="Large" onClick={()=>{redirectToPage(page.page_id)}}>View Page</Button>
+                    <Button size="Large">Join</Button>
                   </CardActions>
                 </Card>
               </Grid>

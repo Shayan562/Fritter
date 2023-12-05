@@ -8,8 +8,9 @@ import TextField from '@mui/material/TextField';
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { MessageText } from "../componenets/MessageText.jsx";
-import style from '../componenets/css/message.module.scss'
+// import style from '../componenets/css/message.module.scss'
 import { IconButton } from "@mui/material";
+import style from './css/FMessage.module.scss';
 // import { Receiver } from "../componenets/messages/Receiver.jsx";
 
 export const Message = (props) => {
@@ -59,11 +60,13 @@ export const Message = (props) => {
     return (
         <div>
         <NavBar/>
-        <div>
-           <div>
-            <ForumIcon/>  <h3> DM</h3>
-            </div> 
+        <div className={style.logo}>
+            <ForumIcon/>  <h3> DM</h3> 
         </div>
+        
+        <div className={style.outer}>
+        <div className={style.container}>
+
         {messages?.map(message=>{
           const sender_id=message.sender_id;
           const content=message.content;
@@ -80,22 +83,24 @@ export const Message = (props) => {
       noValidate
       onSubmit={handleMessageSending}
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
+        '& .MuiTextField-root': { m: 1, width: '130ch' },
       }}
       autoComplete="off"
-    >
-        <div>
-        <TextField
-          label="Message"
+      >
+        <div className={style.messaging}>
+        <TextField InputProps={{ sx: { height: 30 } }} className={style.msg}
+          placeholder="Message"
           id="message"
           name="message"
           defaultValue=""
           size="large"
-        />
+          />
+        <IconButton type="submit"> <SendIcon className={style.send} fontSize="medium" /></IconButton>
         </div>
-        <IconButton type="submit"> <SendIcon/></IconButton>
         </Box>
         
+          </div>
+        </div>
         </div>
 
     );

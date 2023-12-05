@@ -25,6 +25,7 @@ import axios from "axios";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -243,11 +244,16 @@ export default function Post(props) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            P
           </Avatar>
         }
         action={
+          
           props.creator_id===props.user_id?
+          <>
+          <IconButton>
+            <EditIcon/>
+          </IconButton>
           <IconButton aria-label="settings">
             <ClearIcon onClick={() => {
               // setRenderComments(prev=>{return !prev});
@@ -255,7 +261,10 @@ export default function Post(props) {
               // console.log("Toggle Comments:"+postID);
             }}/>
           </IconButton>
+            </>
           :<></>
+
+         
         }
         title={props.name}
         subheader={props.date}

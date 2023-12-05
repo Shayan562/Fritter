@@ -1,0 +1,59 @@
+// body{
+//     background: rgb(202,230,233);
+// background: linear-gradient(0deg, rgba(202,230,233,1) 38%, rgba(255,255,255,1) 100%);
+// }
+
+
+.receiver{
+    text-align: start;
+    justify-content: flex-start;
+    position: relative;
+    left: -500px;
+    
+}
+.sender{
+    text-align: end;
+    justify-content: flex-end;
+    position: relative;
+    right: -500px;
+    
+}
+.container{
+   display: flex;
+   flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    border-style: outset;
+    border-color: grey;
+    background-color:  #f2f2f2;
+    border-radius: 10px;
+    margin: 10px;
+
+}
+.outer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.messaging{
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.logo{
+    margin: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+.msg{
+    background-color: white;
+}
+.send{
+    color: #6699ff;
+}

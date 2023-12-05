@@ -82,6 +82,7 @@ export default function Profile(props) {
     </Card>
     {data.map((item) => {
             return (
+             <div className={style.post}>
               <Post
                 user_id={userID}
                 creator_id={item.creator_id}
@@ -94,6 +95,7 @@ export default function Profile(props) {
                 comments={item.total_comments}
                 postDeleted={postDeleted}
               />
+              </div>
             );
           })}
     </div>

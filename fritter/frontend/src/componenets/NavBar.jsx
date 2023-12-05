@@ -39,7 +39,11 @@ export const NavBar = () => {
             color="inherit"
           >
             Friends
-          </Button>
+          </Button >
+          <Button  onClick={() => {
+              navigate("/");
+            }}
+            color="inherit">LogOut</Button>
         </Stack>
       </Toolbar>
     </AppBar>

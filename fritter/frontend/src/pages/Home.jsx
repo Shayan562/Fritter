@@ -11,7 +11,8 @@ export const Home = (props) => {
   const [data, setData] = useState([]);
   const [flag, setFlag]=useState(false);
   const userID=props.userID;
-  const navigate=useNavigate();
+  const [postDeleteFlag,setPostDeleteFlag]=useState('false');
+  // const navigate=useNavigate();
   // const {userDetails, setUserDetails, token, setToken} = useContext(AppContext);
   // const getData = async () =>{
   //     axios.get("http://localhost:5000/post/feed").then((res)=>{
@@ -28,7 +29,9 @@ export const Home = (props) => {
   //       console.log(res.data[0]);
   //     },[])
   //   })
-
+  const postDeleted=()=>{
+    setPostDeleteFlag(prev=>{return !prev});
+  }
   let id;
 
     // useEffect(()=>{id=sessionStorage.getItem('id');console.log("Props"+props.userID)},[]);
@@ -38,7 +41,7 @@ export const Home = (props) => {
     const fetchData = async () => {
       try {
         const token=sessionStorage.getItem('token');  
-        console.log(sessionStorage.getItem('token'));
+        // console.log(sessionStorage.getItem('token'));
         const res = await axios.get("http://localhost:5000/post/feed"
         , {
           headers: {
@@ -64,7 +67,7 @@ export const Home = (props) => {
     return () => {
       // Perform cleanup here if necessary
     };
-  }, []);
+  }, [postDeleteFlag]);
 
   // console.log("ID"+id);
   // const userid=sessionStorage.id;
@@ -85,6 +88,7 @@ export const Home = (props) => {
                 post_id={item.post_id}
                 likes={item.total_likes}
                 comments={item.total_comments}
+                postDeleted={postDeleted}
               />
             );
           })}

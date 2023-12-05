@@ -30,7 +30,8 @@ function Copyright() {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Pages() {
+export default function Pages(props) {
+  const userID=props.userID;
 
   const [joinedPageData,setJoinedPageData]=React.useState([]);
   const [explorePageData, setExplorePageData]=React.useState([]);

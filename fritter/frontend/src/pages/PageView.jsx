@@ -3,7 +3,8 @@ import { NavBar } from "../componenets/NavBar";
 import Post from "../componenets/Post";
 import style from './css/PageView.module.scss'
 
-export const PageView = () =>{
+export const PageView = (props) =>{
+  const userID=props.userID;
     return (
         <div>
             <NavBar/>

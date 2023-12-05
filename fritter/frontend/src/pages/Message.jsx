@@ -6,7 +6,8 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-export const Message = () => {
+export const Message = (props) => {
+  const userID=props.userID;
     return (
         <div>
         <NavBar/>

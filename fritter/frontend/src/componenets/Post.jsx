@@ -16,6 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import style from "./css/Post.module.scss";
 import { Comment } from "./Comment";
+import ClearIcon from '@mui/icons-material/Clear';
 import { useState, useEffect } from "react";
 import axios from "axios";
 const ExpandMore = styled((props) => {
@@ -33,7 +34,7 @@ export default function Post(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [likesCount, setLikesCount]=React.useState(props.likes)
   const [postLiked, setPostLiked]=React.useState("");
-  const currUser=props.user_id;
+  // const currUser=props.user_id;
   // const [renderComments, setRenderComments] = React.useState(false);
   // console.log(props);
   const postID = props.post_id;
@@ -100,10 +101,37 @@ export default function Post(props) {
       }
     };
 
+    const likeDelete = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const id = sessionStorage.getItem("id");
+      // const create={creator_id:id,post_id:postID};
+      
+        // console.log(create);
+        console.log('Curr User'+props.user_id)
+        const res = await axios.delete(
+          `http://localhost:5000/likes/${postID}`,
+          {
+            headers: {
+              token: `${token}`,
+              id: `${props.user_id}`,
+              // userDetails,
+              // id:userDetails.user_id
+            },
+          }
+        );
+        // console.log(res.data);
+        // setLikesCount(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
   // console.log("Like or unlike - toggle");
   const handleLike = () => {
     if(postLiked) {//if post liked delete
-      console.log(`Post ${postID} ${postLiked}`);
+      likeDelete();
+      // console.log(`Post ${postID} ${postLiked}`);
       toggleLikeStatus();
       setLikesCount(prev=>{return prev-1})
       //subtract 
@@ -116,10 +144,41 @@ export default function Post(props) {
       console.log(`Post Not ${postID} ${postLiked}`);
     }
   };
+  const postDelete = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+      // const id = sessionStorage.getItem("id");
+      // const create={creator_id:id,post_id:postID};
+      
+        // console.log(create);
+        // console.log('Curr User'+props.user_id)
+        const res = await axios.delete(
+          `http://localhost:5000/post/${postID}`,
+          {
+            headers: {
+              token: `${token}`,
+              id: `${props.user_id}`,
+              // userDetails,
+              // id:userDetails.user_id
+            },
+          }
+        );
+        window.alert("Post Deleted");
+        // console.log(res.data);
+        // setLikesCount(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const handlePostDelete=()=>{
+    //postID
+    postDelete();
+    props.postDeleted();
+  }
 
   const [commentData, setCommentData] = useState([]);
 
@@ -163,9 +222,15 @@ export default function Post(props) {
           </Avatar>
         }
         action={
+          props.creator_id===props.user_id?
           <IconButton aria-label="settings">
-            <MoreVertIcon />
+            <ClearIcon onClick={() => {
+              // setRenderComments(prev=>{return !prev});
+              handlePostDelete();
+              // console.log("Toggle Comments:"+postID);
+            }}/>
           </IconButton>
+          :<></>
         }
         title={props.name}
         subheader={props.date}

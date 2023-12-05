@@ -7,11 +7,17 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { NavBar } from "../componenets/NavBar.jsx"
 import { CreatePost } from '../componenets/CreatePost.jsx';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import Post from '../componenets/Post.jsx';
 
-export default function Profile() {
+export default function Profile(props) {
+  const [postDeleteFlag,setPostDeleteFlag]=React.useState('false');
+  const postDeleted=()=>{
+    setPostDeleteFlag(prev=>{return !prev});
+  }
+
+  const userID=props.userID;
 
   const [data,setData]=React.useState([]);
   React.useEffect(() => {
@@ -24,7 +30,7 @@ export default function Profile() {
         , {
           headers: {
             token:`${token}`,
-            id:`${id}`
+            id:`${userID}`
             // userDetails,
             // id:userDetails.user_id
           },
@@ -48,7 +54,7 @@ export default function Profile() {
     return () => {
       // Perform cleanup here if necessary
     };
-  }, []);
+  }, [postDeleteFlag,postDeleted]);
 
 
 
@@ -77,6 +83,8 @@ export default function Profile() {
     {data.map((item) => {
             return (
               <Post
+                user_id={userID}
+                creator_id={item.creator_id}
                 name={item.username}
                 date={item.created_at}
                 body={item.content}
@@ -84,6 +92,7 @@ export default function Profile() {
                 post_id={item.post_id}
                 likes={item.total_likes}
                 comments={item.total_comments}
+                postDeleted={postDeleted}
               />
             );
           })}

@@ -11,6 +11,10 @@ export const PageView = (props) =>{
     const pageID=location.state.pageID;
     const [pageInfo, setPageInfo]=useState({});
     const [posts, setPosts]=useState([]);
+    const [postDeleteFlag,setPostDeleteFlag]=useState('false');
+      const postDeleted=()=>{
+        setPostDeleteFlag(prev=>{return !prev});
+      }
     // const [title,setTitle]=useState("");
     useEffect(()=>{
 
@@ -33,7 +37,7 @@ export const PageView = (props) =>{
         }
         );
         // setData(res.data);
-        console.log(res.data);
+        // console.log(res.data);
         setPageInfo(res.data.pageInfo);
         setPosts(res.data.posts);
         // if(res.data){
@@ -51,12 +55,8 @@ export const PageView = (props) =>{
     return () => {
       // Perform cleanup here if necessary
     };
-  },[] );
+  },[postDeleted,setPostDeleteFlag,postDeleted] );
 
-const [postDeleteFlag,setPostDeleteFlag]=useState('false');
-  const postDeleted=()=>{
-    setPostDeleteFlag(prev=>{return !prev});
-  }
 
     return (
         <div>
@@ -65,7 +65,7 @@ const [postDeleteFlag,setPostDeleteFlag]=useState('false');
                 <h1>{pageInfo.title}</h1>
             </div>
             <div className={style.newpost}>
-                <CreatePost/>
+                <CreatePost user_id={`${userID}`} page={`${pageID}`}/>
             </div>
             <div className={style.post}>
                     {posts?.map((item) => {

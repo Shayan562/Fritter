@@ -12,6 +12,7 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { NavBar } from "../componenets/NavBar.jsx"
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -31,10 +32,19 @@ function Copyright() {
 const defaultTheme = createTheme();
 
 export default function Pages(props) {
+  const navigate=useNavigate();
   const userID=props.userID;
 
   const [joinedPageData,setJoinedPageData]=React.useState([]);
   const [explorePageData, setExplorePageData]=React.useState([]);
+  const redirectToPage = (pageID) => {
+    // console.log(pageID);
+    navigate("/community", {
+        state: {
+            pageID: `${pageID}`
+        },
+    });
+  };
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -139,7 +149,7 @@ React.useEffect(() => {
                     </Typography> 
                   </CardContent>
                   <CardActions>
-                    <Button size="Large">View Page</Button>
+                    <Button size="Large" onClick={()=>{redirectToPage(page.page_id)}}>View Page</Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -191,7 +201,7 @@ React.useEffect(() => {
                     </Typography> 
                   </CardContent>
                   <CardActions>
-                    <Button size="Large">View Page</Button>
+                    <Button size="Large" onClick={()=>{redirectToPage(page.page_id)}}>View Page</Button>
                   </CardActions>
                 </Card>
               </Grid>

@@ -29,6 +29,7 @@ export const Home = (props) => {
   //       console.log(res.data[0]);
   //     },[])
   //   })
+  
   const postDeleted=()=>{
     setPostDeleteFlag(prev=>{return !prev});
   }

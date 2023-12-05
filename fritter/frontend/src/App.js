@@ -41,7 +41,7 @@ function App() {
             <Route path="/profile" element={<Profile userID={userid}/>} />
             <Route path="/pages" element={<Pages userID={userid}/>} />
             <Route path="/friends" element={<Friends userID={userid}/>} />
-            <Route path="/pageid" element={<PageView userID={userid}/>} />
+            <Route path="/community" element={<PageView userID={userid}/>} />
             <Route path="/message" element={<Message userID={userid}/>} />
             <Route path="*" element={<h1>404 Not Found</h1>} />
           </Routes>

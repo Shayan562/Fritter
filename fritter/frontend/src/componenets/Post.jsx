@@ -22,6 +22,9 @@ import { Comment } from "./Comment";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import DeleteIcon from '@mui/icons-material/Delete';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -78,6 +81,24 @@ export default function Post(props) {
     };
   }, []);
 
+  const handleCommentCreation = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    // event.inputRef.current.value="";
+
+    const comment={creator_id:props.user_id,body:data.get('body'),post_id:postID}
+    // console.log(comment);
+    axios.post('http://localhost:5000/comments/',comment).then(res=>{
+        // window.alert("Post Created Successfully");
+    })
+  };
+
+  const handleCommentDeletion= (commentID)=>{
+    axios.delete(`http://localhost:5000/comments/${commentID}`).then(res=>{
+        // window.alert("Post Created Successfully");
+    })
+  }
+
   const likeCreate = async () => {
     try {
       const token = sessionStorage.getItem("token");
@@ -111,7 +132,7 @@ export default function Post(props) {
       // const create={creator_id:id,post_id:postID};
       
         // console.log(create);
-        console.log('Curr User'+props.user_id)
+        // console.log('Curr User'+props.user_id)
         const res = await axios.delete(
           `http://localhost:5000/likes/${postID}`,
           {
@@ -144,7 +165,8 @@ export default function Post(props) {
       setLikesCount(prev=>{return prev+1})
       toggleLikeStatus();
 
-      console.log(`Post Not ${postID} ${postLiked}`);
+      // console.log(`Post Not ${postID} ${postLiked}`);
+
     }
   };
   const postDelete = async () => {
@@ -190,7 +212,7 @@ export default function Post(props) {
       try {
         const token = sessionStorage.getItem("token");
         const id = sessionStorage.getItem("id");
-        console.log(`Comments of ${postID}`);
+        // console.log(`Comments of ${postID}`);
         const res = await axios.get(
           `http://localhost:5000/comments/${postID}`,
           {
@@ -202,7 +224,7 @@ export default function Post(props) {
             },
           }
         );
-        console.log(res.data);
+        // console.log(res.data);
         setCommentData(res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -213,7 +235,7 @@ export default function Post(props) {
     return () => {
       // Perform cleanup here if necessary
     };
-  }, []);
+  }, [handleCommentCreation]);
 
   return (
     <Card className={style.card}>
@@ -251,7 +273,7 @@ export default function Post(props) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="Like">
-          <FavoriteIcon className={style.fav}
+          <FavoriteIcon className={postLiked?style.fav:''}
             onClick={() => {
               // setRenderComments(prev=>{return !prev});
               handleLike();
@@ -285,15 +307,28 @@ export default function Post(props) {
             {commentData?.map((comment) => {
               return (
                 <>
-                  <h5>{comment.username}: </h5>
-                  <p>{comment.body}</p>
+                <span>
+                  <h5>{comment.username}{} </h5>
+                    {comment.body}
+                    {comment.creator_id===props.user_id?
+                    <IconButton>
+                      <DeleteIcon onClick={()=>handleCommentDeletion(comment.comment_id)}/>
+                    </IconButton>
+                      :<></>
+                    }
+                  </span>
                   <br></br>
                 </>
               
               );
             })}
             <div className={style.comment}>
-            <input className={style.input} type="text" placeholder="Add Comment"/><IconButton aria-label="Insert Comment"> <InsertCommentIcon className={style.notfav}/> </IconButton>
+              <Box component="form" noValidate onSubmit={handleCommentCreation} sx={{ mt: 3 }}>
+                <TextField fullWidth={true} className={style.input} id="body" label="Insert Comment" name='body'  variant="outlined" />
+                <IconButton  aria-label="Insert Comment" type="submit"> <InsertCommentIcon className={style.notfav}/> </IconButton>
+            {/* <input  className={style.input} type="text" placeholder="Add Comment"/> */}
+
+              </Box>
             </div>
           </Typography>
         </CardContent>

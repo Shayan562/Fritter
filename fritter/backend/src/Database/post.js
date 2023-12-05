@@ -208,7 +208,7 @@ export const getPostsPage = async (pageID) => {
     export const getPostsPageWithValidation = async (userID, pageID) => {
       //check if user is a member
       if (!(await alreadyMember(userID, pageID))) {
-        //not a user
+      //   //not a user
         return {message:"Not a member of the specified page"};
       }
       //then get all the posts on the page from page_posts
@@ -222,4 +222,5 @@ export const getPostsPage = async (pageID) => {
       return (await getPosts(postIds));
     };
     // console.log(await getPostsProfile('user1'));
+    // console.log(getPostsPageWithValidation('user1',))
     

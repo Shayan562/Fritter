@@ -21,7 +21,7 @@ export const pageInfo = async (req, res) => {
 };
 export const pageComplete = async (req, res) => {
   const page = await getPage(req.params.pageid);
-  const posts = await getPostsPageWithValidation(req.params.pageid);
+  const posts = await getPostsPageWithValidation(req.headers.id,req.params.pageid);
   res.send({ pageInfo:page,posts:posts });
 };
 export const findPage = async (req, res) => {

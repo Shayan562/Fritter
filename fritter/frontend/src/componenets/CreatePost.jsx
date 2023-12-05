@@ -15,7 +15,7 @@ export const CreatePost = (props) => {
     const data = new FormData(event.currentTarget);
     // event.inputRef.current.value="";
 
-    const post={creator_id:props.user_id,content:data.get('content'),link:data.get('link')}
+    const post={creator_id:props.user_id,content:data.get('content'),link:data.get('link'),page:props.page}
     console.log(post);
     axios.post('http://localhost:5000/post/',post).then(res=>{
         window.alert("Post Created Successfully");

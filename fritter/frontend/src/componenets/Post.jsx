@@ -307,13 +307,15 @@ export default function Post(props) {
             {commentData?.map((comment) => {
               return (
                 <>
-                <span>
+                <span className={style.span}>
                   <h5>{comment.username}{} </h5>
                     {comment.body}
                     {comment.creator_id===props.user_id?
+                    <div className={style.del}>
                     <IconButton>
-                      <DeleteIcon onClick={()=>handleCommentDeletion(comment.comment_id)}/>
+                      <DeleteIcon className={style.logo} fontSize="small" onClick={()=>handleCommentDeletion(comment.comment_id)} />
                     </IconButton>
+                    </div>
                       :<></>
                     }
                   </span>
@@ -324,10 +326,14 @@ export default function Post(props) {
             })}
             <div className={style.comment}>
               <Box component="form" noValidate onSubmit={handleCommentCreation} sx={{ mt: 3 }}>
-                <TextField fullWidth={true} className={style.input} id="body" label="Insert Comment" name='body'  variant="outlined" />
-                <IconButton  aria-label="Insert Comment" type="submit"> <InsertCommentIcon className={style.notfav}/> </IconButton>
-            {/* <input  className={style.input} type="text" placeholder="Add Comment"/> */}
+                <div className={style.comment}>
 
+                <TextField sx={{ width: 545 }}  InputProps={{ sx: { height: 28 } }} className={style.input} id="body" placeholder="Add Comment" name='body'  variant="outlined" />
+              <IconButton  aria-label="Insert Comment" type="submit"> <InsertCommentIcon className={style.notfav}/> </IconButton>
+                
+            {/* <input  className={style.input} type="text" placeholder="Add Comment"/> */}
+              
+                </div>
               </Box>
             </div>
           </Typography>

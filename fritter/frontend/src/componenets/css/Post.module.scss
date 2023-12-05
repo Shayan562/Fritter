@@ -18,13 +18,30 @@
 //   width: 100%;
 // }
 
-.input[type=text] {
-  width: 90%;
-  height: 22px;
+.input{ 
+  margin-top: 2px; 
 }
 .comment{
+
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 2px;
+
+}
+.del{
+    display: flex;
+    justify-content: end;
+    position: relative;
+    top: -25px;
+    height: 0px;
+}
+
+.span{
+  height: 0px;
+}
+
+.logo{
+  :hover{
+    color: red;
+  }
 }

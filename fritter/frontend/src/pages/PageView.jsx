@@ -61,16 +61,18 @@ const [postDeleteFlag,setPostDeleteFlag]=useState('false');
     return (
         <div>
             <NavBar/>
+            <div className={style.post}>
+
             <div className={style.heading}>
                 <h1>{pageInfo.title}</h1>
             </div>
             <div className={style.newpost}>
                 <CreatePost/>
-            </div>
+            </div >
             <div className={style.post}>
                     {posts?.map((item) => {
             return (
-              <Post
+              <Post 
                 user_id={userID}
                 creator_id={item.creator_id}
                 name={item.username}
@@ -81,12 +83,13 @@ const [postDeleteFlag,setPostDeleteFlag]=useState('false');
                 likes={item.total_likes}
                 comments={item.total_comments}
                 postDeleted={postDeleted}
-              />
-            );
-          })}
+                />
+                );
+              })}
                 
             </div>
 
+          </div>
         </div>
     );
 }

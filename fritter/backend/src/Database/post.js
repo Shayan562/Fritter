@@ -13,6 +13,9 @@ const postExists = async (postID) => {
 };
 const getPosts = async (postIDs) => {
   // console.log(postIDs);
+  if(postIDs.length<1){
+    return [];
+  }
   let ids = "(";
   postIDs.forEach((id) => {
     ids = ids.concat(`'${id}',`);
@@ -218,9 +221,12 @@ export const getPostsPage = async (pageID) => {
         // [pageID]
       // );
       const postIds=await getPostsPage(pageID);
+      if(postIds.length<1){
+        return [];
+      }
       // console.log(postIds);
       return (await getPosts(postIds));
     };
     // console.log(await getPostsProfile('user1'));
-    // console.log(getPostsPageWithValidation('user1',))
+    // console.log(await getPostsPageWithValidation('user1','page4'));
     

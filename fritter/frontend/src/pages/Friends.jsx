@@ -45,6 +45,7 @@ export default function Friends(props) {
   };
 
   const [friendsData, setFriendsData] = React.useState([]);
+  const [suggestedData, setSuggestedData]=React.useState([]);
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -57,7 +58,38 @@ export default function Friends(props) {
           },
         });
         setFriendsData(res.data);
-        console.log(res.data);
+        // console.log(res.data);
+        // console.log(res.data);
+        // if(res.data){
+        //   setFlag(true);
+        // }
+        // console.log(res.data);
+        // setData(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData(); // Invoke the async function
+
+    // Cleanup function (if needed)
+    return () => {
+      // Perform cleanup here if necessary
+    };
+  }, [friendList, setFriendsList, updateFriendList]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const id = sessionStorage.getItem("id");
+        const res = await axios.get("http://localhost:5000/friends/", {
+          headers: {
+            token: `${token}`,
+            id: `${userID}`,
+          },
+        });
+        setSuggestedData(res.data);
+        // console.log(res.data);
         // console.log(res.data);
         // if(res.data){
         //   setFlag(true);

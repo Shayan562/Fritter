@@ -38,6 +38,7 @@ export default function Pages(props) {
 
   const [joinedPageData,setJoinedPageData]=React.useState([]);
   const [explorePageData, setExplorePageData]=React.useState([]);
+  const [pageJoined, setPageJoined]=React.useState(false);
   const redirectToPage = (pageID) => {
     // console.log(pageID);
     navigate("/community", {
@@ -46,6 +47,19 @@ export default function Pages(props) {
         },
     });
   };
+
+  const handlePageJoining=(pageID)=>{
+    
+    // event.inputRef.current.value="";
+
+    const page={userID:userID,pageID:pageID}
+    // console.log(page);
+    axios.post(`http://localhost:5000/pages/join`,page).then(res=>{
+        // window.alert("Post Created Successfully");
+        setPageJoined(prev=>{return !prev});
+    })
+  }
+
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -71,7 +85,7 @@ export default function Pages(props) {
     // Cleanup function (if needed)
     return () => {
     };
-  }, []);
+  }, [pageJoined,setPageJoined]);
 
 
 React.useEffect(() => {
@@ -100,7 +114,20 @@ React.useEffect(() => {
     // Cleanup function (if needed)
     return () => {
     };
-  }, []);
+  }, [pageJoined,setPageJoined]);
+
+  
+  const handlePageLeaving=(pageID)=>{
+    axios.delete(`http://localhost:5000/pages/leave/${pageID}`, {
+          headers: {
+            id:`${userID}`
+          },
+        }).then(res=>{
+          setPageJoined(prev=>{return !prev});
+        // window.alert("Post Created Successfully");
+    })
+    
+  }
 
   return (
     <div>
@@ -151,7 +178,11 @@ React.useEffect(() => {
                   </CardContent>
                   <CardActions>
                     <Button size="Large" onClick={()=>{redirectToPage(page.page_id)}}>View Page</Button>
+<<<<<<< Updated upstream
                     <Button size='Large'>Leave</Button>
+=======
+                    <Button size="Large" color={'warning'} onClick={()=>{handlePageLeaving(page.page_id)}}>Leave Page</Button>
+>>>>>>> Stashed changes
                   </CardActions>
                 </Card>
               </Grid>
@@ -204,7 +235,11 @@ React.useEffect(() => {
                   </CardContent>
                   <CardActions>
                     <Button size="Large" onClick={()=>{redirectToPage(page.page_id)}}>View Page</Button>
+<<<<<<< Updated upstream
                     <Button size="Large">Join</Button>
+=======
+                    <Button size="Large" color={'success'} onClick={()=>{handlePageJoining(page.page_id)}}>Join Page</Button>
+>>>>>>> Stashed changes
                   </CardActions>
                 </Card>
               </Grid>

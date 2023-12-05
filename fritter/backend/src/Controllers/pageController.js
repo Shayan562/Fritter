@@ -46,8 +46,10 @@ export const delPage = async (req, res) => {
   res.send({ message: "deleted" });
 };
 export const joinPage = async (req, res) => {
-  const page = req.params.pageid;
-  await addMember(req.headers.id,page,'member');
+  const {userID,pageID}=req.body;
+  // const page = req.params.pageid;
+  // console.log({userID,pageID})
+  await addMember(userID,pageID,'member');
   res.send({ message: "joined" });
 };
 export const leavePage = async (req, res) => {

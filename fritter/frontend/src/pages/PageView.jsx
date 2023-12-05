@@ -11,6 +11,7 @@ export const PageView = (props) =>{
     const pageID=location.state.pageID;
     const [pageInfo, setPageInfo]=useState({});
     const [posts, setPosts]=useState([]);
+    const [member,setMember]=useState(false);
     const [postDeleteFlag,setPostDeleteFlag]=useState('false');
       const postDeleted=()=>{
         setPostDeleteFlag(prev=>{return !prev});
@@ -40,6 +41,12 @@ export const PageView = (props) =>{
         // console.log(res.data);
         setPageInfo(res.data.pageInfo);
         setPosts(res.data.posts);
+        if(Object.hasOwn(res.data.posts, 'message')){
+          setMember(false);
+        }
+        else{
+          setMember(true);
+        }
         // if(res.data){
         //   setFlag(true);
         // }
@@ -57,6 +64,28 @@ export const PageView = (props) =>{
     };
   },[postDeleted,setPostDeleteFlag,postDeleted] );
 
+  const getPosts=()=>{
+    if(! Object.hasOwn(posts, 'message')){
+      return <>Join Page To View Posts</>
+    }
+    posts?.map((item) => {
+            return (
+              <Post 
+                user_id={userID}
+                creator_id={item.creator_id}
+                name={item.username}
+                date={item.created_at}
+                body={item.content}
+                image={item.link}
+                post_id={item.post_id}
+                likes={item.total_likes}
+                comments={item.total_comments}
+                postDeleted={postDeleted}
+                />
+                );
+              })
+  }
+
 
     return (
         <div>
@@ -64,13 +93,14 @@ export const PageView = (props) =>{
             <div className={style.post}>
 
             <div className={style.heading}>
-                <h1>{pageInfo.title}</h1>
+                <h1>{pageInfo.title || pageInfo.message}</h1>
             </div>
             <div className={style.newpost}>
-                <CreatePost user_id={`${userID}`} page={`${pageID}`}/>
+                {member &&<CreatePost user_id={`${userID}`} page={`${pageID}`}/>}
             </div>
+            {!member && <>Join Page To View Posts</>}
             <div className={style.post}>
-                    {posts?.map((item) => {
+                    {member && posts.length!=0 &&posts?.map((item) => {
             return (
               <Post 
                 user_id={userID}

@@ -71,7 +71,7 @@ export const deletePage = async (pageID) => {
 };
 export const exploreRandom = async(userID)=>{
   const [pages]=await database.query(`select page_id,title from pages join
-    users on users.user_id=pages.creator_id where page_id not in(select page_id from members where user_id=?) Order By rand() Limit 3;`,[userID])
+    users on users.user_id=pages.creator_id where page_id not in(select page_id from members where user_id=?) Order By rand();`,[userID])
     return pages;
 }
 export const getPagesUserHasJoined = async (userID) => {

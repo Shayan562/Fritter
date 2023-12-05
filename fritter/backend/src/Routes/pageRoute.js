@@ -10,7 +10,7 @@ pageRouter.get("/info:pageid", auth, pageInfo);//user feed
 pageRouter.get("/:pageid", auth, pageComplete);//user profile
 pageRouter.get("/search=:name", auth, findPage);//user profile
 pageRouter.post("/", auth,newPage);
-pageRouter.post("/join:pageid",auth,joinPage);
-pageRouter.delete("/leave:pageid",auth,leavePage);
+pageRouter.post("/join",auth,joinPage);
+pageRouter.delete("/leave/:pageid",auth,leavePage);
 pageRouter.put("/:pageid", auth,editPage);
 pageRouter.delete("/:pageid", auth,delPage)

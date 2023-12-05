@@ -30,7 +30,7 @@ export const newPost = async (req, res) => {
   await createPost({creator_id,content});
   const post=await getPostID(creator_id,content);
   await createImage({user_id:creator_id,post_id:post,link})
-  if(page!=null){
+  if(page!=null && page!=undefined){
     await addPagePostEntry(page,post);
   }
   res.send({message:"Post Created"});

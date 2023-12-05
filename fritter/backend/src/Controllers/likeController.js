@@ -16,6 +16,7 @@ export const userLikeStatus = async (req, res) => {
 };
 export const newLike = async (req, res) => {
   const { creator_id, post_id } = req.body;
+  // res.send({creator_id,post_id})
   // console.log(creator_id+post_id);
   await setLike(creator_id, post_id);
   res.send({ message:"liked" });

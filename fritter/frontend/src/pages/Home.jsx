@@ -7,11 +7,12 @@ import { CreatePost } from "../componenets/CreatePost.jsx";
 import { AppContext } from "../App.js";
 import { useNavigate } from "react-router-dom";
 
-export const Home = () => {
+export const Home = (props) => {
   const [data, setData] = useState([]);
   const [flag, setFlag]=useState(false);
+  const userID=props.userID;
   const navigate=useNavigate();
-  const {userDetails, setUserDetails, token, setToken} = useContext(AppContext);
+  // const {userDetails, setUserDetails, token, setToken} = useContext(AppContext);
   // const getData = async () =>{
   //     axios.get("http://localhost:5000/post/feed").then((res)=>{
   //   setData(res.data[2])
@@ -28,19 +29,21 @@ export const Home = () => {
   //     },[])
   //   })
 
+  let id;
+
+    // useEffect(()=>{id=sessionStorage.getItem('id');console.log("Props"+props.userID)},[]);
+
   useEffect(() => {
+    id=sessionStorage.getItem('id')
     const fetchData = async () => {
       try {
         const token=sessionStorage.getItem('token');  
-        const id=sessionStorage.getItem('id');
         console.log(sessionStorage.getItem('token'));
         const res = await axios.get("http://localhost:5000/post/feed"
         , {
           headers: {
             token:`${token}`,
             id:`${id}`
-            // userDetails,
-            // id:userDetails.user_id
           },
         }
         );
@@ -63,15 +66,18 @@ export const Home = () => {
     };
   }, []);
 
+  // console.log("ID"+id);
+  // const userid=sessionStorage.id;
   return (
     <div className={style.bg}>
       <NavBar />
-      <CreatePost/>
+      <CreatePost user_id={`${userID}`} page={null}/>
         <div className={style.post}>
           {data.map((item) => {
             return (
               <Post
-                user_id={item.creator_id}
+                user_id={userID}
+                creator_id={item.creator_id}
                 name={item.username}
                 date={item.created_at}
                 body={item.content}

@@ -33,14 +33,16 @@ export default function Post(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [likesCount, setLikesCount]=React.useState(props.likes)
   const [postLiked, setPostLiked]=React.useState("");
+  const currUser=props.user_id;
   // const [renderComments, setRenderComments] = React.useState(false);
   // console.log(props);
   const postID = props.post_id;
-
+  // console.log("user:"+props.user_id);
+  
   const toggleLikeStatus=()=>{
     setPostLiked(prev=>{return !prev});
   }
-
+  
   useEffect(() => {
     const checkLikeStatus = async () => {
     try {
@@ -52,13 +54,13 @@ export default function Post(props) {
         {
           headers: {
             token: `${token}`,
-            id: `${id}`,
+            id: `${props.user_id}`,
             // userDetails,
             // id:userDetails.user_id
           },
         }
       );
-      console.log("Post LIke"+postID+"-"+res.data);
+      // console.log("Post LIke"+postID+"-"+res.data);
       setPostLiked(res.data.userLikes);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -76,20 +78,20 @@ export default function Post(props) {
     try {
       const token = sessionStorage.getItem("token");
       const id = sessionStorage.getItem("id");
-      console.log(props.user_id);
       // const create={creator_id:id,post_id:postID};
       
         // console.log(create);
+        console.log('Curr User'+props.user_id)
         const res = await axios.post(
-          `http://localhost:5000/likes`,
+          `http://localhost:5000/likes`,{"creator_id":`${props.user_id}`,"post_id":`${postID}`},
           {
             headers: {
               token: `${token}`,
-              id: `${id}`,
+              id: `${props.user_id}`,
               // userDetails,
               // id:userDetails.user_id
             },
-          },{creator_id:props.user_id,post_id:postID}
+          }
         );
         // console.log(res.data);
         // setLikesCount(res.data);
@@ -102,12 +104,15 @@ export default function Post(props) {
   const handleLike = () => {
     if(postLiked) {//if post liked delete
       console.log(`Post ${postID} ${postLiked}`);
-      likeCreate();
       toggleLikeStatus();
       setLikesCount(prev=>{return prev-1})
       //subtract 
     }
     else{//post not liked so create
+      likeCreate();
+      setLikesCount(prev=>{return prev+1})
+      toggleLikeStatus();
+
       console.log(`Post Not ${postID} ${postLiked}`);
     }
   };

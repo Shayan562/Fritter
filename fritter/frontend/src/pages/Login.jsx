@@ -33,7 +33,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+export default function Login(props) {
   const navigate=useNavigate();
   const {userDetails, setUserDetails, token, setToken} = useContext(AppContext);
 
@@ -47,6 +47,8 @@ export default function Login() {
         window.alert(res.data.message);
         return;
       }
+      props.setUserID(res.data.user.user_id)
+      console.log(res.data.user.user_id)
       // function setHeaders(){
         axios.interceptors.request.use(
       config => {

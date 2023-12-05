@@ -20,10 +20,14 @@ function App() {
     password: "",
     disp_img_link: "",
   });
+  const [userid,setUserid]=useState('');
   const [token, setToken] = useState({ token: "" });
   useEffect(() => {
     document.title = "Fritter";
   }, []);
+  const handleUserID=(userID)=>{
+    setUserid(userID);
+  }
   return (
     <div>
       <AppContext.Provider
@@ -31,14 +35,14 @@ function App() {
       >
         <BrowserRouter>
           <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/pages" element={<Pages />} />
-            <Route path="/friends" element={<Friends />} />
-            <Route path="/pageid" element={<PageView/>} />
-            <Route path="/message" element={<Message/>} />
+            <Route path="/home" element={<Home userID={userid}/>} />
+            <Route path="/" element={<Login setUserID={handleUserID}/>} />
+            <Route path="/signup" element={<SignUp userID={userid}/>} />
+            <Route path="/profile" element={<Profile userID={userid}/>} />
+            <Route path="/pages" element={<Pages userID={userid}/>} />
+            <Route path="/friends" element={<Friends userID={userid}/>} />
+            <Route path="/pageid" element={<PageView userID={userid}/>} />
+            <Route path="/message" element={<Message userID={userid}/>} />
             <Route path="*" element={<h1>404 Not Found</h1>} />
           </Routes>
         </BrowserRouter>

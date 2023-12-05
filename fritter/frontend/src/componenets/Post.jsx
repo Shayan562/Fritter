@@ -251,7 +251,7 @@ export default function Post(props) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="Like">
-          <FavoriteIcon
+          <FavoriteIcon className={style.fav}
             onClick={() => {
               // setRenderComments(prev=>{return !prev});
               handleLike();
@@ -261,7 +261,7 @@ export default function Post(props) {
           {likesCount}
         </IconButton>
         <IconButton aria-label="Comment">
-          <AddCommentIcon
+          <AddCommentIcon className={style.notfav}
             onClick={() => {
               // setRenderComments(prev=>{return !prev});
               handleExpandClick();
@@ -293,7 +293,7 @@ export default function Post(props) {
               );
             })}
             <div className={style.comment}>
-            <input className={style.input} type="text" placeholder="Add Comment"/><IconButton aria-label="Insert Comment"> <InsertCommentIcon/> </IconButton>
+            <input className={style.input} type="text" placeholder="Add Comment"/><IconButton aria-label="Insert Comment"> <InsertCommentIcon className={style.notfav}/> </IconButton>
             </div>
           </Typography>
         </CardContent>

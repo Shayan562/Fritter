@@ -10,6 +10,7 @@ import Pages from "./pages/Pages";
 import { useState, createContext } from "react";
 import { PageView } from "./pages/PageView";
 import { Message } from "./pages/Message";
+import { EditPost } from "./pages/EditPost";
 
 export const AppContext = createContext();
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="/friends" element={<Friends userID={userid}/>} />
             <Route path="/community" element={<PageView userID={userid}/>} />
             <Route path="/message" element={<Message userID={userid}/>} />
+            <Route path="/editpost" element={<EditPost/>} />
             <Route path="*" element={<h1>404 Not Found</h1>} />
           </Routes>
         </BrowserRouter>

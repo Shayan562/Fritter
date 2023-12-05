@@ -26,6 +26,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from "react-router-dom";
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -41,6 +42,7 @@ export default function Post(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [likesCount, setLikesCount]=React.useState(props.likes)
   const [postLiked, setPostLiked]=React.useState("");
+  const navigate=useNavigate();
   // const currUser=props.user_id;
   // const [renderComments, setRenderComments] = React.useState(false);
   // console.log(props);
@@ -238,6 +240,19 @@ export default function Post(props) {
     };
   }, [handleCommentCreation]);
 
+  const redirectToPage = () => {
+  // console.log(pageID);
+  navigate("/editPost", {
+      state: {
+          userID: `${props.user_id}`,
+          postID: `${postID}`
+      },
+  });
+  const handlePostUpdate=()=>{
+    redirectToPage();
+  };
+  }
+
   return (
     <Card className={style.card}>
       {/* <Comment post_id={postID}/> */}
@@ -251,8 +266,8 @@ export default function Post(props) {
           
           props.creator_id===props.user_id?
           <>
-          <IconButton>
-            <EditIcon/>
+          <IconButton onClick={redirectToPage}>
+            <EditIcon onClick={redirectToPage}/>
           </IconButton>
           <IconButton aria-label="settings">
             <ClearIcon onClick={() => {
@@ -272,7 +287,7 @@ export default function Post(props) {
       {props.image != "" && props.image != null ? (
         <CardMedia component="img" height="194" image={props.image} />
       ) : (
-        "No Image"
+        <></>
       )}
 
       <CardContent>

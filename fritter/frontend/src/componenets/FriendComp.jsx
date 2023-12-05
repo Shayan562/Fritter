@@ -15,13 +15,15 @@ import axios from 'axios'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 
 export const Friend=(props)=>{
 
-    const removeFriend = async (friend_id) => {
-      try {
+  const navigate=useNavigate();
+  const removeFriend = async (friend_id) => {
+    try {
         const token=sessionStorage.getItem('token');
         // const id=sessionStorage.getItem('id');
         const res = await axios.delete(`http://localhost:5000/friends/${friend_id}`
@@ -38,24 +40,32 @@ export const Friend=(props)=>{
         // if(res.data){
         //   setFlag(true);
         // }
-          // console.log(res.data);
-          // setData(res.data);
+        // console.log(res.data);
+        // setData(res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-     const handleRemoveFriend=()=>{
+    const handleRemoveFriend=()=>{
         removeFriend(props.friend_id);
         props.updateFriendList();
     } 
+    const redirectToPage = () => {
+      navigate("/message", {
+            state: {
+                userID: `${props.user_id}`,
+                friendID: `${props.friend_id}`
+            },
+        });
+      }
 
 
     return (
     <Grid item key={props.friend_id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
+                  >
                   <CardMedia
                     component="div"
                     sx={{
@@ -73,7 +83,7 @@ export const Friend=(props)=>{
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="Large">Message</Button>
+                    <Button size="Large" onClick={redirectToPage}>Message</Button>
                     <IconButton>
                     <PersonRemoveIcon onClick={handleRemoveFriend}/>
                     </IconButton>

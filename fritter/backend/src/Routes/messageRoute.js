@@ -3,5 +3,5 @@ import { getMessages, sendMessage } from "../Controllers/messageContoller.js";
 import { auth } from "../Middlewares/auth.js";
 export const messageRouter = express.Router();
 
-messageRouter.get("/friend=:id", auth, getMessages);
+messageRouter.get("/:id", auth, getMessages);
 messageRouter.post("/", auth, sendMessage);

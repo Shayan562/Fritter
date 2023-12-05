@@ -24,7 +24,7 @@ export const sendMsg = async (senderID, receiverID, content) => {
 //get comments-post
 export const getMsgs = async (senderID, receiverID) => {
   const [msgs] = await database.query(
-    `select sender_id,content,sent_date from messages where sender_id=? AND receiver_id=? OR sender_id=? AND receiver_id=? order by sent_date DESC`,
+    `select sender_id,content,sent_date from messages where sender_id=? AND receiver_id=? OR sender_id=? AND receiver_id=? order by sent_date ASC`,
     [senderID, receiverID, receiverID, senderID]
   );
 //   let ids = "(";

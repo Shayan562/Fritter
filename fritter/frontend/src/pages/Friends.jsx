@@ -17,6 +17,7 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { IconButton } from "@mui/material";
 import { Friend } from "../componenets/FriendComp.jsx";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Copyright() {
   return (

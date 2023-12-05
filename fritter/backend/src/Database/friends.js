@@ -14,12 +14,11 @@ const alreadyFriends = async (val1, val2) => {
 
 export const notFriends = async (userID)=>{
   const [result] = await database.query(
-    `select * from friends where user_id!=? AND friend_id!=?`,
-    [userID, userID]
+    `select * from users where user_id!=? `,
+    [userID]
   );
   const ids = [];
   result.forEach((obj) => {
-      ids.push(obj.friend_id);
       ids.push(obj.user_id);
   });
   let friendids = "(";

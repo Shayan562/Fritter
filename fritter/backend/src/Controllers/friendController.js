@@ -1,4 +1,9 @@
-import { addFriends, getFriends, removeFriends } from "../Database/friends.js"
+import { addFriends, getFriends, notFriends, removeFriends } from "../Database/friends.js"
+
+export const suggested = async (req,res)=>{
+    // console.log(req.headers.id);
+    res.send(await notFriends(req.headers.id));
+}
 
 export const friendList = async (req,res)=>{
     // console.log(req.headers.id);

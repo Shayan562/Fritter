@@ -82,7 +82,7 @@ export default function Friends(props) {
       try {
         const token = sessionStorage.getItem("token");
         const id = sessionStorage.getItem("id");
-        const res = await axios.get("http://localhost:5000/friends/", {
+        const res = await axios.get("http://localhost:5000/friends/suggested", {
           headers: {
             token: `${token}`,
             id: `${userID}`,
@@ -145,10 +145,38 @@ export default function Friends(props) {
                   friend_id={friend.user_id}
                   username={friend.username}
                   updateFriendList={updateFriendList}
+                  friend={'true'}
                 />
               ))}
             </Grid>
           </Container>
+
+              <Container maxWidth="sm">
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Suggested
+            </Typography>
+          </Container>
+          <Container sx={{ py: 8 }} maxWidth="md">
+            {/* End hero unit */}
+            <Grid container spacing={4}>
+              {suggestedData?.map((friend) => (
+                <Friend
+                  user_id={userID}
+                  friend_id={friend.user_id}
+                  username={friend.username}
+                  updateFriendList={updateFriendList}
+                  friend={'false'}
+                />
+              ))}
+            </Grid>
+          </Container>
+
         </main>
         {/* Footer */}
         <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">

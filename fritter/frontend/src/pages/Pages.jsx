@@ -178,11 +178,7 @@ React.useEffect(() => {
                   </CardContent>
                   <CardActions>
                     <Button size="Large" onClick={()=>{redirectToPage(page.page_id)}}>View Page</Button>
-<<<<<<< Updated upstream
-                    <Button size='Large'>Leave</Button>
-=======
                     <Button size="Large" color={'warning'} onClick={()=>{handlePageLeaving(page.page_id)}}>Leave Page</Button>
->>>>>>> Stashed changes
                   </CardActions>
                 </Card>
               </Grid>
@@ -235,11 +231,7 @@ React.useEffect(() => {
                   </CardContent>
                   <CardActions>
                     <Button size="Large" onClick={()=>{redirectToPage(page.page_id)}}>View Page</Button>
-<<<<<<< Updated upstream
-                    <Button size="Large">Join</Button>
-=======
                     <Button size="Large" color={'success'} onClick={()=>{handlePageJoining(page.page_id)}}>Join Page</Button>
->>>>>>> Stashed changes
                   </CardActions>
                 </Card>
               </Grid>

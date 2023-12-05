@@ -16,6 +16,7 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 
 
@@ -50,7 +51,18 @@ export const Friend=(props)=>{
     const handleRemoveFriend=()=>{
         removeFriend(props.friend_id);
         props.updateFriendList();
-    } 
+    }
+
+    const handleAddFriend = () => {
+    const friend={user_id:props.user_id,friend_id:props.friend_id}
+    // console.log(comment);
+    axios.post('http://localhost:5000/friends/',friend).then(res=>{
+      props.updateFriendList();
+        // window.alert("Post Created Successfully");
+    })
+    props.updateFriendList();
+  };
+    
     const redirectToPage = () => {
       navigate("/message", {
             state: {
@@ -82,13 +94,21 @@ export const Friend=(props)=>{
                       {props.friend_id}
                     </Typography>
                   </CardContent>
+                  {props.friend==='true'?
                   <CardActions>
                     <Button size="Large" onClick={redirectToPage}>Message</Button>
                     <IconButton>
                     <PersonRemoveIcon onClick={handleRemoveFriend}/>
                     </IconButton>
                     {/* <NotificationsNoneIcon/> */}
+                  </CardActions>:
+                  <CardActions>
+                    <IconButton>
+                    <PersonAddIcon onClick={handleAddFriend}/>
+                    </IconButton>
+                    {/* <NotificationsNoneIcon/> */}
                   </CardActions>
+                  }
                 </Card>
               </Grid>
         );

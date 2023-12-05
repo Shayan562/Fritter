@@ -12,6 +12,27 @@ const alreadyFriends = async (val1, val2) => {
   return false;
 };
 
+export const notFriends = async (userID)=>{
+  const [result] = await database.query(
+    `select * from friends where user_id!=? AND friend_id!=?`,
+    [userID, userID]
+  );
+  const ids = [];
+  result.forEach((obj) => {
+      ids.push(obj.friend_id);
+      ids.push(obj.user_id);
+  });
+  let friendids = "(";
+  ids.forEach((id) => {
+    return friendids = friendids.concat(`'${id}',`);
+  });
+  friendids = friendids.substring(0, friendids.length - 1);
+  friendids = friendids.concat(")");
+  const [friends] = await database.query(`select user_id,username from users
+  where user_id in ${friendids}`)
+  return friends;
+}
+
 export const getFriends = async (userID) => {
   const [result] = await database.query(
     `select * from friends where user_id=? OR friend_id=?`,
